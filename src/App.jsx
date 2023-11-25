@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
@@ -28,11 +29,6 @@ const App = () => {
     setTasks(prevTasks => [...prevTasks, newTask]);
   };
 
-  const addTaskList = () => {
-    const newList = []; 
-    setTasks(newList); 
-  };
-
   return (
     <div className="app-container">
       <TaskList
@@ -40,10 +36,7 @@ const App = () => {
         handleComplete={handleComplete}
         handleDelete={handleDelete}
       />
-      <TaskForm
-        addTask={addTask}
-        addTaskList={addTaskList} 
-      />
+      <TaskForm addTask={addTask} />
     </div>
   );
 };
