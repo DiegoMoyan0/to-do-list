@@ -21,6 +21,10 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
     });
   };
 
+  const handleUncomplete = () => {
+    handleComplete(task.id);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -41,9 +45,7 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
     <li className="task-item">
       <div
         className="task-status"
-        onClick={() => {
-          handleCompleteWithAlert(); // Usar la función con SweetAlert
-        }}
+        onClick={task.completed ? handleUncomplete : handleCompleteWithAlert}
       >
         {task.completed && <span className="checkmark">&#10003;</span>}
       </div>
@@ -57,9 +59,7 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
         <div className="task-menu" ref={menuRef}>
           <div
             className="menu-item"
-            onClick={() => {
-              handleCompleteWithAlert(); // Usar la función con SweetAlert
-            }}
+            onClick={task.completed ? handleUncomplete : handleCompleteWithAlert}
           >
             {task.completed ? 'Desmarcar tarea' : 'Marcar como hecha'}
           </div>
@@ -80,5 +80,6 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
 };
 
 export default TaskItem;
+
 
 
