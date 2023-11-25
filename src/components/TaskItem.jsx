@@ -1,53 +1,5 @@
-/*import React, { useState, useEffect, useRef } from 'react';
-
-const TaskItem = ({ task, handleComplete, handleDelete }) => {
-  const [showMenu, setShowMenu] = useState(false);
-  const menuRef = useRef(); 
-
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
-
- 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setShowMenu(false);
-      }
-    };
-
-    
-    if (showMenu) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showMenu]);
-
-  return (
-    <li className="task-item">
-      <div className="task-status">
-        {task.completed && <span className="checkmark">&#10003;</span>}
-      </div>
-      <span className={task.completed ? 'task-name completed' : 'task-name'}>{task.name}</span>
-      <div className="menu-button" onClick={toggleMenu}>&#8942;</div>
-      {showMenu && (
-        <div className="task-menu" ref={menuRef}>          
-          <div className="menu-item" onClick={() => { handleComplete(task.id); setShowMenu(false); }}>
-            {task.completed ? 'Desmarcar tarea' : 'Marcar como hecha'}
-          </div>
-          <div className="menu-item" onClick={() => { handleDelete(task.id); setShowMenu(false); }}>Eliminar tarea</div>
-        </div>
-      )}
-    </li>
-  );
-};
-
-export default TaskItem;*/
 import React, { useState, useEffect, useRef } from 'react';
+import Swal from 'sweetalert2'; // Importa SweetAlert
 
 const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -55,6 +7,18 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
+  };
+
+  const handleCompleteWithAlert = () => {
+    handleComplete(task.id);
+    setShowMenu(false);
+
+    Swal.fire({
+      icon: 'success',
+      title: '¡Tarea completada!',
+      showConfirmButton: false,
+      timer: 1500, // Cierra automáticamente el mensaje después de 1.5 segundos
+    });
   };
 
   useEffect(() => {
@@ -78,12 +42,14 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
       <div
         className="task-status"
         onClick={() => {
-          handleComplete(task.id);
+          handleCompleteWithAlert(); // Usar la función con SweetAlert
         }}
       >
         {task.completed && <span className="checkmark">&#10003;</span>}
       </div>
-      <span className={task.completed ? 'task-name completed' : 'task-name'}>{task.name}</span>
+      <span className={task.completed ? 'task-name completed' : 'task-name'}>
+        {task.name}
+      </span>
       <div className="menu-button" onClick={toggleMenu}>
         &#8942;
       </div>
@@ -92,8 +58,7 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
           <div
             className="menu-item"
             onClick={() => {
-              handleComplete(task.id);
-              setShowMenu(false);
+              handleCompleteWithAlert(); // Usar la función con SweetAlert
             }}
           >
             {task.completed ? 'Desmarcar tarea' : 'Marcar como hecha'}
@@ -115,4 +80,5 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
 };
 
 export default TaskItem;
+
 
