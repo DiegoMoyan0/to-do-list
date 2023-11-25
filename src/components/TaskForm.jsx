@@ -1,14 +1,22 @@
+
 import React, { useState } from 'react';
 
 const TaskForm = ({ addTask, isVisible, onClose }) => {
   const [taskName, setTaskName] = useState('');
+  const [categoryName, setCategoryName] = useState(''); // Nuevo estado para el nombre de la categoría
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (taskName.trim() === '') return;
-    addTask({ id: Date.now(), name: taskName, completed: false });
+    addTask({
+      id: Date.now(),
+      name: taskName,
+      category: categoryName, // Agregar la nueva categoría al objeto de la tarea
+      completed: false,
+    });
     setTaskName('');
-    onClose(); 
+    setCategoryName(''); // Limpiar el campo de categoría después de agregar la tarea
+    onClose();
   };
 
   if (!isVisible) return null;
@@ -20,14 +28,24 @@ const TaskForm = ({ addTask, isVisible, onClose }) => {
         <input
           className='task-input'
           type="text"
+          placeholder="Nombre de la tarea"
           value={taskName}
           onChange={e => setTaskName(e.target.value)}
           autoFocus
         />
+        {/* Nuevo campo para el nombre de la categoría */}
+        <input
+          className='task-input'
+          type="text"
+          placeholder="Nombre de la categoría"
+          value={categoryName}
+          onChange={e => setCategoryName(e.target.value)}
+        />
+        <button type="submit" className='add-task-button'>Agregar tarea</button>
       </form>
-        <p  onClick={handleSubmit} className='add-task-button'>Agregar tarea</p>
     </div>
   );
 };
 
 export default TaskForm;
+
