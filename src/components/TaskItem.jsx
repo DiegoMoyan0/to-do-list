@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Swal from 'sweetalert2'; // Importa SweetAlert
+import Swal from 'sweetalert2';
 
 const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -17,12 +17,8 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
       icon: 'success',
       title: '¡Tarea completada!',
       showConfirmButton: false,
-      timer: 1500, // Cierra automáticamente el mensaje después de 1.5 segundos
+      timer: 1500,
     });
-  };
-
-  const handleUncomplete = () => {
-    handleComplete(task.id);
   };
 
   useEffect(() => {
@@ -45,36 +41,45 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
     <li className="task-item">
       <div
         className="task-status"
-        onClick={task.completed ? handleUncomplete : handleCompleteWithAlert}
+        onClick={() => {
+          handleCompleteWithAlert();
+        }}
       >
         {task.completed && <span className="checkmark">&#10003;</span>}
       </div>
       <span className={task.completed ? 'task-name completed' : 'task-name'}>
         {task.name}
       </span>
+      {/* Mostrar la categoría en el menú desplegable */}
       <div className="menu-button" onClick={toggleMenu}>
         &#8942;
+        {showMenu && (
+          <div className="task-menu" ref={menuRef}>
+            <div className="menu-item">
+              {/* Verificar si la tarea tiene una categoría y mostrarla */}
+              {task.category ? `Categoría: ${task.category}` : 'Sin categoría'}
+            </div>
+            <div
+              className="menu-item"
+              onClick={() => {
+                handleCompleteWithAlert();
+              }}
+            >
+              {task.completed ? 'Desmarcar tarea' : 'Marcar como hecha'}
+            </div>
+            <div
+              className="menu-item"
+              onClick={() => {
+                handleDelete(task.id);
+                setShowMenu(false);
+              }}
+            >
+              Eliminar tarea
+            </div>
+            {/* Agregar aquí otra funcionalidad adicional */}
+          </div>
+        )}
       </div>
-      {showMenu && (
-        <div className="task-menu" ref={menuRef}>
-          <div
-            className="menu-item"
-            onClick={task.completed ? handleUncomplete : handleCompleteWithAlert}
-          >
-            {task.completed ? 'Desmarcar tarea' : 'Marcar como hecha'}
-          </div>
-          <div
-            className="menu-item"
-            onClick={() => {
-              handleDelete(task.id);
-              setShowMenu(false);
-            }}
-          >
-            Eliminar tarea
-          </div>
-          {/* Agregar aquí otra funcionalidad adicional */}
-        </div>
-      )}
     </li>
   );
 };
