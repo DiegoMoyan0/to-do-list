@@ -5,7 +5,7 @@ const TaskItem = ({ task, handleComplete, handleDelete }) => {
 
   const toggleComplete = () => {
     setCompleted(!completed);
-    handleComplete();
+    handleComplete(task.id);
   };
 
   return (
