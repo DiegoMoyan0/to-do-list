@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const TaskForm = ({ addTask }) => {
+const TaskForm = ({ addTask, addTaskList }) => {
   const [taskName, setTaskName] = useState('');
 
   const handleSubmit = e => {
@@ -8,6 +8,11 @@ const TaskForm = ({ addTask }) => {
     if (taskName.trim() === '') return;
     addTask({ id: Date.now(), name: taskName, completed: false });
     setTaskName('');
+  };
+
+  const handleAddList = () => {
+    // Llamando a la función addTaskList para crear una nueva lista de tareas
+    addTaskList();
   };
 
   return (
@@ -21,6 +26,7 @@ const TaskForm = ({ addTask }) => {
         />
         <button type="submit">Añadir tarea</button>
       </form>
+      <button onClick={handleAddList}>Crear nueva lista de tareas</button>
     </div>
   );
 };
