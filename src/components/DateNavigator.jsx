@@ -32,3 +32,4 @@ const DateNavigator = ({ onDateChange, onAddClick, selectedDate }) => {
 };
 
 export default DateNavigator;
+
