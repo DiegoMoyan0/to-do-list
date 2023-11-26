@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
 const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const menuRef = useRef();
+  const [isHovered, setIsHovered] = useState(false);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -25,24 +25,13 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setShowMenu(false);
-      }
-    };
-
-    if (showMenu) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showMenu]);
-
   return (
-    <li className="task-item">
+    <li
+      className="task-item"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{ backgroundColor: isHovered ? 'lightblue' : 'transparent' }}
+    >
       <div
         className="task-status"
         onClick={handleCompleteWithAlert}
@@ -55,7 +44,7 @@ const TaskItem = ({ task, handleComplete, handleDelete, handleToggleMenu }) => {
       <div className="menu-button" onClick={toggleMenu}>
         &#8942;
         {showMenu && (
-          <div className="task-menu" ref={menuRef}>
+          <div className="task-menu">
             <div className="menu-item">
               {task.category ? `Categoría: ${task.category}` : 'Sin categoría'}
             </div>
