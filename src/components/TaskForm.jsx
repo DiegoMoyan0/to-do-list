@@ -18,7 +18,7 @@ const TaskForm = ({ addTask, isVisible, onClose }) => {
   return (
     <div className='form'>
       <p>Nueva tarea</p>
-      <form onSubmit={handleSubmit}>
+      <form id='form' onSubmit={handleSubmit}>
         <input
           className='task-input'
           type="text"
@@ -31,7 +31,7 @@ const TaskForm = ({ addTask, isVisible, onClose }) => {
         <input
           className='task-input'
           type="text"
-          placeholder="Nombre de la categoría (opcional)"
+          placeholder="Categoría (opcional)"
           value={categoryName}
           onChange={e => setCategoryName(e.target.value)}
         />
